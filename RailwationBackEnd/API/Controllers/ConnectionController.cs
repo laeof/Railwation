@@ -1,4 +1,6 @@
-﻿using Application.Interface.Repository;
+﻿using Application.Dto;
+using Application.Interface.Repository;
+using Application.Mappers;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +29,10 @@ public class ConnectionController: ControllerBase
     }
 
     [HttpPost("city/create")]
-    public async Task<IActionResult> CreateCityConnection([FromBody] CityConnection connection)
+    public async Task<IActionResult> CreateCityConnection([FromBody] CityConnectionDto connection)
     {
-        var connectionResult = await cityRepository.CreateCityConnectionAsync(connection);
+        var connectionResult = 
+            await cityRepository.CreateCityConnectionAsync(AutoMapper.CityConnectDtoMapper(connection));
 
         if (connectionResult.IsFailure) return NotFound(connectionResult.Error);
 
@@ -47,9 +50,10 @@ public class ConnectionController: ControllerBase
     }
 
     [HttpPost("country/create")]
-    public async Task<IActionResult> CreateCountryConnection([FromBody] CountryConnection connection)
+    public async Task<IActionResult> CreateCountryConnection([FromBody] CountryConnectionDto connection)
     {
-        var connectionResult = await countryRepository.CreateCountryConnectionAsync(connection);
+        var connectionResult = 
+            await countryRepository.CreateCountryConnectionAsync(AutoMapper.CountryConnectionDtoMapper(connection));
 
         if (connectionResult.IsFailure) return NotFound(connectionResult.Error);
 

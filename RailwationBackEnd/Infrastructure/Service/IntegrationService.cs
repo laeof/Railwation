@@ -15,7 +15,9 @@ public class IntegrationService : IIntegrationService
             if (!graph.ContainsKey(city.Id))
                 graph[city.Id] = new GraphCityNode { CityId = city.Id };
 
-            foreach (var conn in city.CityConnections)
+            var connections = city.FromCityConnections.Concat(city.ToCityConnections);
+
+            foreach (var conn in connections)
             {
                 Guid neighborId = conn.FromCityId == city.Id ? conn.ToCityId : conn.FromCityId;
 
@@ -60,17 +62,19 @@ public class IntegrationService : IIntegrationService
 
         int connected = graph.Values.Count(node => node.Neighbors.Count > 0);
         double coverageRatio = (double)connected / cities.Count;
-        int score = (int)(coverageRatio * 10); // макс 10 баллов
+        int score = (int)(coverageRatio * 10);
 
         if (IsFullyConnected(graph))
-            score += 5; // бонус за полную связность
+            score += 5;
 
         return Math.Min(score, 15);
     }
 
     public int ScoreInternationalConnections(Country country)
     {
-        var distinctConnections = country.CountryConnections?
+        var connections = country.FromCountryConnections.Concat(country.ToCountryConnections).ToList();
+
+        var distinctConnections = connections?
             .Select(c => c.ToCountryId)
             .Distinct()
             .Count() ?? 0;
@@ -80,7 +84,9 @@ public class IntegrationService : IIntegrationService
 
     public int ScoreRailServices(Country country)
     {
-        var connections = country.CountryConnections ?? new List<CountryConnection>();
+        var countryConnections = country.FromCountryConnections.Concat(country.ToCountryConnections).ToList();
+
+        var connections = countryConnections ?? new List<CountryConnection>();
 
         int passenger = connections.Count(c => c.HasPassengerService);
         int freight = connections.Count(c => c.HasFreightService);
@@ -90,7 +96,9 @@ public class IntegrationService : IIntegrationService
 
     public int ScoreLogistics(Country country)
     {
-        var connections = country.CountryConnections ?? new List<CountryConnection>();
+        var countryConnections = country.FromCountryConnections.Concat(country.ToCountryConnections).ToList();
+
+        var connections = countryConnections ?? new List<CountryConnection>();
 
         int totalFrequency = connections.Sum(c => c.WeeklyFrequency);
         int avgLogistics = connections.Any() ? (int)connections.Average(c => c.LogisticsScore) : 0;
@@ -103,7 +111,9 @@ public class IntegrationService : IIntegrationService
 
     public int ScoreBorderCrossings(Country country)
     {
-        int railwayCrossings = country.BorderCrossings?
+        var borderCrossings = country.BorderCrossingsAsA.Concat(country.BorderCrossingsAsB).ToList();
+
+        int railwayCrossings = borderCrossings?
             .Count(b => b.HasRailway) ?? 0;
 
         return Math.Min(railwayCrossings * 3, 15);

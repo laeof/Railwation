@@ -5,9 +5,9 @@ namespace Application.Interface.Repository;
 
 public interface ICountryRepository
 {
+    Task<Result<List<Country>>> GetCountriesAsync();
     Task<Result<Country>> GetCountryWithIdAsync(Guid id);
-    Task<Result<CountryConnection>> GetCountryConnectionsWithCountryIdAsync(Guid id);
-    Task<Result<Country>> GetCountriesAsync();
     Task<Result<Country>> CreateCountryAsync(Country country);
+    Task<Result<List<CountryConnection>>> GetCountryConnectionsWithCountryIdAsync(Guid id);
     Task<Result<CountryConnection>> CreateCountryConnectionAsync(CountryConnection countryConnection);
 }

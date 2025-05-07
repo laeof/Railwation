@@ -1,11 +1,13 @@
-﻿using Application.Interface.Repository;
+﻿using Application.Dto;
+using Application.Interface.Repository;
+using Application.Mappers;
 using Domain.Entities;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[Route("[contrtoller]")]
+[Route("[controller]")]
 [ApiController]
 public class BorderCrossingController: ControllerBase
 {
@@ -26,9 +28,10 @@ public class BorderCrossingController: ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] BorderCrossing crossing)
+    public async Task<IActionResult> Create([FromBody] BorderCrossDto crossing)
     {
-        var borderCrossingsResult = await borderCrossingRepository.CreateBorderCrossingAsync(crossing);
+        var borderCrossingsResult = 
+            await borderCrossingRepository.CreateBorderCrossingAsync(AutoMapper.BorderCrossDtoMapper(crossing));
 
         if (borderCrossingsResult.IsFailure) return NotFound(borderCrossingsResult.Error);
 

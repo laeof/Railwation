@@ -13,32 +13,170 @@ public class CountryRepository : ICountryRepository
         this.context = context;
     }
 
-    public Task<Result<Country>> CreateCountryAsync(Country country)
+    public async Task<Result<Country>> CreateCountryAsync(Country country)
     {
-        throw new NotImplementedException();
+        try
+        {
+            context.Entry(country).State = EntityState.Added;
+            await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return Result<Country>.Faillure(new("500", ex.Message));
+        }
+
+        return Result<Country>.Success(country);
     }
 
-    public Task<Result<CountryConnection>> CreateCountryConnectionAsync(CountryConnection countryConnection)
+    public async Task<Result<CountryConnection>> CreateCountryConnectionAsync(CountryConnection countryConnection)
     {
-        throw new NotImplementedException();
+        try
+        {
+            context.Entry(countryConnection).State = EntityState.Added;
+            await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return Result<CountryConnection>.Faillure(new("500", ex.Message));
+        }
+
+        return Result<CountryConnection>.Success(countryConnection);
     }
 
-    public Task<Result<Country>> GetCountriesAsync()
+    public async Task<Result<List<Country>>> GetCountriesAsync()
     {
-        throw new NotImplementedException();
+        var countriesResult = await context.Countries
+            .Select(c => new Country
+            {
+                Name = c.Name,
+                BorderCrossingsAsA = c.BorderCrossingsAsA
+                    .Select(b => new BorderCrossing
+                    {
+                        CountryAId = b.CountryAId,
+                        CountryBId = b.CountryBId,
+                        CountryA = new Country { Name = b.CountryA.Name },
+                        CountryB = new Country { Name = b.CountryB.Name },
+                    })
+                    .ToList(),
+                BorderCrossingsAsB = c.BorderCrossingsAsB
+                    .Select(b => new BorderCrossing
+                    {
+                        CountryAId = b.CountryAId,
+                        CountryBId = b.CountryBId,
+                        CountryA = new Country { Name = b.CountryA.Name },
+                        CountryB = new Country { Name = b.CountryB.Name },
+                    })
+                    .ToList(),
+                FromCountryConnections = c.FromCountryConnections
+                    .Select(b => new CountryConnection
+                    {
+                        FromCountryId = b.FromCountryId,
+                        ToCountryId = b.ToCountryId,
+                        FromCountry = new Country { Name = b.FromCountry.Name },
+                        ToCountry = new Country { Name = b.ToCountry.Name },
+                        HasFreightService = b.HasFreightService,
+                        HasPassengerService = b.HasPassengerService,
+                        LogisticsScore = b.LogisticsScore,
+                        WeeklyFrequency = b.WeeklyFrequency,
+                    })
+                    .ToList(),
+                ToCountryConnections = c.ToCountryConnections
+                    .Select(b => new CountryConnection
+                    {
+                        FromCountryId = b.FromCountryId,
+                        ToCountryId = b.ToCountryId,
+                        FromCountry = new Country { Name = b.FromCountry.Name },
+                        ToCountry = new Country { Name = b.ToCountry.Name },
+                        HasFreightService = b.HasFreightService,
+                        HasPassengerService = b.HasPassengerService,
+                        LogisticsScore = b.LogisticsScore,
+                        WeeklyFrequency = b.WeeklyFrequency,
+                    })
+                    .ToList()
+            })
+           .ToListAsync();
+
+        if (countriesResult is null) return Result<List<Country>>.Faillure(new("404", "Countries are not found"));
+
+        return Result<List<Country>>.Success(countriesResult);
     }
 
-    public Task<Result<CountryConnection>> GetCountryConnectionsWithCountryIdAsync(Guid id)
+    public async Task<Result<List<CountryConnection>>> GetCountryConnectionsWithCountryIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var connectionsResult = await context.CountryConnections
+            .Where(r => r.FromCountryId == id)
+            .Select(c => new CountryConnection
+            {
+                LogisticsScore = c.LogisticsScore,
+                FromCountryId = c.FromCountryId,
+                HasFreightService = c.HasFreightService,
+                HasPassengerService = c.HasPassengerService,
+                ToCountryId = c.ToCountryId,
+                WeeklyFrequency = c.WeeklyFrequency,
+                ToCountry = new Country { Name = c.ToCountry.Name },
+                FromCountry = new Country { Name = c.FromCountry.Name },
+            })
+            .ToListAsync();
+
+        if (connectionsResult is null) return Result<List<CountryConnection>>.Faillure(new("404", "Countries are not found"));
+
+        return Result<List<CountryConnection>>.Success(connectionsResult);
     }
 
     public async Task<Result<Country>> GetCountryWithIdAsync(Guid id)
     {
         var countryResult = await context.Countries
-            .Include(c => c.CountryConnections)
-            .Include(c => c.BorderCrossings)
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .Where(c => c.Id == id)
+            .Select(c => new Country { 
+                Name = c.Name,
+                BorderCrossingsAsA = c.BorderCrossingsAsA
+                    .Select(b => new BorderCrossing
+                    {
+                        CountryAId = b.CountryAId,
+                        CountryBId = b.CountryBId,
+                        CountryA = new Country { Name = b.CountryA.Name },
+                        CountryB = new Country { Name = b.CountryB.Name },
+                        HasRailway = b.HasRailway
+                    })
+                    .ToList(),
+                BorderCrossingsAsB = c.BorderCrossingsAsB
+                    .Select(b => new BorderCrossing
+                    {
+                        CountryAId = b.CountryAId,
+                        CountryBId = b.CountryBId,
+                        CountryA = new Country { Name = b.CountryA.Name },
+                        CountryB = new Country { Name = b.CountryB.Name },
+                        HasRailway = b.HasRailway
+                    })
+                    .ToList(),
+                FromCountryConnections = c.FromCountryConnections
+                    .Select(b => new CountryConnection
+                    {
+                        FromCountryId = b.FromCountryId,
+                        ToCountryId = b.ToCountryId,
+                        FromCountry = new Country { Name = b.FromCountry.Name },
+                        ToCountry = new Country { Name = b.ToCountry.Name },
+                        HasFreightService = b.HasFreightService,
+                        HasPassengerService = b.HasPassengerService,
+                        LogisticsScore = b.LogisticsScore,
+                        WeeklyFrequency = b.WeeklyFrequency,
+                    })
+                    .ToList(),
+                ToCountryConnections = c.ToCountryConnections
+                    .Select(b => new CountryConnection
+                    {
+                        FromCountryId = b.FromCountryId,
+                        ToCountryId = b.ToCountryId,
+                        FromCountry = new Country { Name = b.FromCountry.Name },
+                        ToCountry = new Country { Name = b.ToCountry.Name },
+                        HasFreightService = b.HasFreightService,
+                        HasPassengerService = b.HasPassengerService,
+                        LogisticsScore = b.LogisticsScore,
+                        WeeklyFrequency = b.WeeklyFrequency,
+                    })
+                    .ToList()
+            })
+            .FirstOrDefaultAsync();
 
         if (countryResult is null) return Result<Country>.Faillure(new("404", "Country is not found"));
 

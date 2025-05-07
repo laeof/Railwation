@@ -1,4 +1,6 @@
-﻿using Application.Interface.Repository;
+﻿using Application.Dto;
+using Application.Interface.Repository;
+using Application.Mappers;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,9 +37,9 @@ public class CountryController: ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Country country)
+    public async Task<IActionResult> Create([FromBody] CountryDto country)
     {
-        var countryResult = await countryRepository.CreateCountryAsync(country);
+        var countryResult = await countryRepository.CreateCountryAsync(AutoMapper.CountryDtoMapper(country));
 
         if(countryResult.IsFailure) return BadRequest(countryResult.Error);
 

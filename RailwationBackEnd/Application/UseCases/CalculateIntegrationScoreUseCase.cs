@@ -20,26 +20,26 @@ public class CalculateIntegrationScoreUseCase
         this.cityRepository = cityRepository;
     }
 
-    public async Task<Result<int>> ExecuteAsync(Guid countryId)
+    public async Task<Result<IntegrationsScore>> ExecuteAsync(Guid countryId)
     {
         var countryResult = await countryRepository.GetCountryWithIdAsync(countryId);
 
-        if (countryResult.IsFailure) return Result<int>.Faillure(countryResult.Error);
+        if (countryResult.IsFailure) return Result<IntegrationsScore>.Faillure(countryResult.Error);
 
         var citiesResult = await cityRepository.GetCitiesWithCountryIdAsync(countryId);
 
-        if (countryResult.IsFailure) return Result<int>.Faillure(countryResult.Error);
+        if (countryResult.IsFailure) return Result<IntegrationsScore>.Faillure(countryResult.Error);
 
         var cityGraph = integrationService.BuildGraph(citiesResult.Value);
 
-        int totalScore = 0;
+        var score = new IntegrationsScore();
 
-        totalScore += integrationService.ScoreInternationalConnections(countryResult.Value);
-        totalScore += integrationService.ScoreRailServices(countryResult.Value);
-        totalScore += integrationService.ScoreLogistics(countryResult.Value);
-        totalScore += integrationService.ScoreBorderCrossings(countryResult.Value);
-        totalScore += integrationService.ScoreCityCoverage(citiesResult.Value, cityGraph);
+        score.ScoreInternationalConnections = integrationService.ScoreInternationalConnections(countryResult.Value);
+        score.ScoreRailServices = integrationService.ScoreRailServices(countryResult.Value);
+        score.ScoreLogistics = integrationService.ScoreLogistics(countryResult.Value);
+        score.ScoreBorderCrossings = integrationService.ScoreBorderCrossings(countryResult.Value);
+        score.ScoreCityCoverage = integrationService.ScoreCityCoverage(citiesResult.Value, cityGraph);
 
-        return Result<int>.Success(Math.Min(totalScore, 100));
+        return Result<IntegrationsScore>.Success(score);
     }
 }
