@@ -1,0 +1,17 @@
+<div class="wrapper">
+    <div class="item" (click)="redirectTo('home')">
+        Main Page
+    </div>
+    <div class="item" (click)="showPage(0)" [class]="{'selected': currentPage == 0}">
+        Country
+    </div>
+    <div class="item" (click)="showPage(1)" [class]="{'selected': currentPage == 1}">
+        Cities
+    </div>
+    <div class="item" (click)="showPage(2)" [class]="{'selected': currentPage == 2}">
+        Border crossings
+    </div>
+    <div class="item" (click)="showPage(3)" [class]="{'selected': currentPage == 3}">
+        Country connections
+    </div>
+</div>

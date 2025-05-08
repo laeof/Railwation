@@ -1,0 +1,132 @@
+<div class="wrapper" *ngIf="country">
+    <app-country-sidebar (page)="onValueChanged($event)" [country]="country"></app-country-sidebar>
+    <div class="wrap">
+        <div *ngIf="page === 0">
+            <div class="score" *ngIf="score">
+                <p class="title">Оцінка інтегрованності</p>
+                <div class="scores">
+                    <div class="card">
+                        <div class="info">
+                            <h3 class="title">Оцінка наявності залізнодоріжних пограничних переходів</h3>
+                            <p class="subtitle">Наявність пограничних переходів з залізною дорогою</p>
+                        </div>
+                        <div class="circle" [style.--percent]="score.scoreBorderCrossings">
+                            <div class="inner-circle">
+                                <div class="number">{{score.scoreBorderCrossings}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="info">
+                            <h3 class="title">Оцінка зв'язку між городами</h3>
+                            <p class="subtitle">Оцінка за допомогою графу зв'язків міст</p>
+                        </div>
+                        <div class="circle" [style.--percent]="score.scoreCityCoverage">
+                            <div class="inner-circle">
+                                <div class="number">{{score.scoreCityCoverage}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="info">
+                            <h3 class="title">Оцінка міжнародних зв'язків</h3>
+                            <p class="subtitle">Відсоток унікальних країн з зв'язками(макс унікальних країн - 5)</p>
+                        </div>
+                        <div class="circle" [style.--percent]="score.scoreInternationalConnections">
+                            <div class="inner-circle">
+                                <div class="number">{{score.scoreInternationalConnections}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="info">
+                            <h3 class="title">Оцінка логістичних зв'язків</h3>
+                            <p class="subtitle">Оцінюється частота перевезень між країнами та логістика</p>
+                        </div>
+                        <div class="circle" [style.--percent]="score.scoreLogistics">
+                            <div class="inner-circle">
+                                <div class="number">{{score.scoreLogistics}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="info">
+                            <h3 class="title">Оцінка залізнодорожних сервісів</h3>
+                            <p class="subtitle">Оцінка кількості рейсів які обеспечують пасажирські та грузові перевезення</p>
+                        </div>
+                        <div class="circle" [style.--percent]="score.scoreRailServices">
+                            <div class="inner-circle">
+                                <div class="number">{{score.scoreRailServices}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="page === 1">
+            <p>Cities</p>
+            <div *ngFor="let i of cities">
+                <p>{{i.name}}</p>
+                <p>{{i.id}}</p>
+                <div>
+                    <p>country</p>
+                    <p>{{i.country.name}}</p>
+                    <p>{{i.countryId}}</p>
+                    <p>{{i.country.photoUrl}}</p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="page === 2">
+            <p>border-crossings</p>
+            <p>A: </p>
+            <div *ngFor="let i of country?.borderCrossingsAsA">
+                {{i.hasRailway}}
+                <div>
+                    <p>country</p>
+                    <p>{{i.countryA.name}}</p>
+                    <p>{{i.countryAId}}</p>
+                    <p>{{i.countryA.photoUrl}}</p>
+                </div>
+            </div>
+            <p>B: </p>
+            <div *ngFor="let i of country?.borderCrossingsAsA">
+                {{i.hasRailway}}
+                <div>
+                    <p>country</p>
+                    <p>{{i.countryB.name}}</p>
+                    <p>{{i.countryBId}}</p>
+                    <p>{{i.countryB.photoUrl}}</p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="page === 3">
+            <p>country-connections</p>
+            <p>From: </p>
+            <div *ngFor="let i of country?.fromCountryConnections">
+                {{i.hasFreightService}}
+                {{i.hasPassengerService}}
+                {{i.logisticsScore}}
+                {{i.weeklyFrequency}}
+                <div>
+                    <p>country</p>
+                    <p>{{i.fromCountry.name}}</p>
+                    <p>{{i.fromCountryId}}</p>
+                    <p>{{i.fromCountry.photoUrl}}</p>
+                </div>
+            </div>
+            <p>To: </p>
+            <div *ngFor="let i of country?.toCountryConnections">
+                {{i.hasFreightService}}
+                {{i.hasPassengerService}}
+                {{i.logisticsScore}}
+                {{i.weeklyFrequency}}
+                <div>
+                    <p>country</p>
+                    <p>{{i.toCountry.name}}</p>
+                    <p>{{i.toCountryId}}</p>
+                    <p>{{i.toCountry.photoUrl}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+
+    .wrap {
+        justify-self: flex-start;
+        padding: 2rem;
+
+        .score {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .title {
+                font-weight: 700;
+                font-size: 2rem;
+            }
+
+            .scores {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1rem;
+
+                .card {
+                    display: flex;
+                    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+                    border-radius: 1rem;
+                    padding: 1rem;
+
+                    .info {
+                        .title {
+                            font-size: 1rem;
+                            font-weight: 800;
+                        }
+
+                        .subtitle {}
+                    }
+
+                    .circle {
+                        min-width: 120px;
+                        --size: 120px;
+                        --percent: 0;
+                        --angle: calc(var(--percent) * 3.6deg);
+                        --thickness: 15px;
+
+                        width: var(--size);
+                        height: var(--size);
+                        border-radius: 50%;
+                        background: conic-gradient(#4caf50 var(--angle), #ddd 0deg);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+
+                        .inner-circle {
+                            width: calc(var(--size) - var(--thickness) * 2);
+                            height: calc(var(--size) - var(--thickness) * 2);
+                            background: white;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            .number {
+                                font-size: 1.5rem;
+                                font-weight: bold;
+                                color: #333;
+                            }
+                        }
+                    }
+
+                    &:nth-child(1) {
+                        .circle {
+                            background: conic-gradient(#4caf50 var(--angle), #ddd 0deg);
+                        }
+                    }
+
+                    &:nth-child(2) {
+                        .circle {
+                            background: conic-gradient(#dfd659 var(--angle), #ddd 0deg);
+                        }
+                    }
+
+                    &:nth-child(3) {
+                        .circle {
+                            background: conic-gradient(#af4c4c var(--angle), #ddd 0deg);
+                        }
+                    }
+
+                    &:nth-child(4) {
+                        .circle {
+                            background: conic-gradient(#4c6baf var(--angle), #ddd 0deg);
+                        }
+                    }
+
+                    &:nth-child(5) {
+                        .circle {
+                            background: conic-gradient(#af4ca5 var(--angle), #ddd 0deg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

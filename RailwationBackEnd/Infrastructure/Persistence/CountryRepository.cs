@@ -48,10 +48,12 @@ public class CountryRepository : ICountryRepository
         var countriesResult = await context.Countries
             .Select(c => new Country
             {
+                Id = c.Id,
                 Name = c.Name,
                 BorderCrossingsAsA = c.BorderCrossingsAsA
                     .Select(b => new BorderCrossing
                     {
+                        Id = b.Id,
                         CountryAId = b.CountryAId,
                         CountryBId = b.CountryBId,
                         CountryA = new Country { Name = b.CountryA.Name },
@@ -61,6 +63,7 @@ public class CountryRepository : ICountryRepository
                 BorderCrossingsAsB = c.BorderCrossingsAsB
                     .Select(b => new BorderCrossing
                     {
+                        Id = b.Id,
                         CountryAId = b.CountryAId,
                         CountryBId = b.CountryBId,
                         CountryA = new Country { Name = b.CountryA.Name },
@@ -70,6 +73,7 @@ public class CountryRepository : ICountryRepository
                 FromCountryConnections = c.FromCountryConnections
                     .Select(b => new CountryConnection
                     {
+                        Id = b.Id,
                         FromCountryId = b.FromCountryId,
                         ToCountryId = b.ToCountryId,
                         FromCountry = new Country { Name = b.FromCountry.Name },
@@ -83,6 +87,7 @@ public class CountryRepository : ICountryRepository
                 ToCountryConnections = c.ToCountryConnections
                     .Select(b => new CountryConnection
                     {
+                        Id = b.Id,
                         FromCountryId = b.FromCountryId,
                         ToCountryId = b.ToCountryId,
                         FromCountry = new Country { Name = b.FromCountry.Name },
@@ -107,6 +112,7 @@ public class CountryRepository : ICountryRepository
             .Where(r => r.FromCountryId == id)
             .Select(c => new CountryConnection
             {
+                Id = id,
                 LogisticsScore = c.LogisticsScore,
                 FromCountryId = c.FromCountryId,
                 HasFreightService = c.HasFreightService,
@@ -128,10 +134,12 @@ public class CountryRepository : ICountryRepository
         var countryResult = await context.Countries
             .Where(c => c.Id == id)
             .Select(c => new Country { 
+                Id = c.Id,
                 Name = c.Name,
                 BorderCrossingsAsA = c.BorderCrossingsAsA
                     .Select(b => new BorderCrossing
                     {
+                        Id = b.Id,
                         CountryAId = b.CountryAId,
                         CountryBId = b.CountryBId,
                         CountryA = new Country { Name = b.CountryA.Name },
@@ -142,6 +150,7 @@ public class CountryRepository : ICountryRepository
                 BorderCrossingsAsB = c.BorderCrossingsAsB
                     .Select(b => new BorderCrossing
                     {
+                        Id = b.Id,
                         CountryAId = b.CountryAId,
                         CountryBId = b.CountryBId,
                         CountryA = new Country { Name = b.CountryA.Name },
@@ -152,6 +161,7 @@ public class CountryRepository : ICountryRepository
                 FromCountryConnections = c.FromCountryConnections
                     .Select(b => new CountryConnection
                     {
+                        Id = b.Id,
                         FromCountryId = b.FromCountryId,
                         ToCountryId = b.ToCountryId,
                         FromCountry = new Country { Name = b.FromCountry.Name },
@@ -165,6 +175,7 @@ public class CountryRepository : ICountryRepository
                 ToCountryConnections = c.ToCountryConnections
                     .Select(b => new CountryConnection
                     {
+                        Id = b.Id,
                         FromCountryId = b.FromCountryId,
                         ToCountryId = b.ToCountryId,
                         FromCountry = new Country { Name = b.FromCountry.Name },

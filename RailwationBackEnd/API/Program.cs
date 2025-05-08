@@ -23,9 +23,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseCors();
+
 app.MapControllers();
+
 
 app.Run();

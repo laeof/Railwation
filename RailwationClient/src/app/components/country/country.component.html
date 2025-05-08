@@ -1,0 +1,23 @@
+<div class="wrapper">
+    <div class="countries" *ngIf="!selectedCountry">
+        <h2 class="title">Countries</h2>
+        <div class="countries-wrap">
+            <div class="country" *ngFor="let i of countries" (click)="selectCountry(i)">
+                <div class="wrap-img">
+                    <div class="overlay"></div>
+                    <img
+                        src="https://content.unops.org/photos/Generic/Impact/_image2880x1400/Ukraine-GettyImages-622892200.jpg">
+                </div>
+                <p class="name">{{i.name}}</p>
+            </div>
+        </div>
+    </div>
+    <app-country-details *ngIf="selectedCountry" [cities]="cities" [country]="selectedCountry"></app-country-details>
+    <div class="create" *ngIf="!selectedCountry">
+        <form class="form" [formGroup]="countryForm">
+            <h1 class="title">Add new country</h1>
+            <input type="text" class="input" placeholder="Name" formControlName="name">
+            <span class="button">Add</span>
+        </form>
+    </div>
+</div>
