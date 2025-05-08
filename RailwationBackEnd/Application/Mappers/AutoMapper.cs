@@ -31,6 +31,7 @@ public static class AutoMapper
     {
         CountryId = dto.CountryId,
         Name = dto.Name,
+        PhotoUrl = dto.PhotoUrl ?? "https://content.unops.org/photos/Generic/Impact/_image2880x1400/Ukraine-GettyImages-622892200.jpg",
     };
 
     public static CountryConnection CountryConnectionDtoMapper(CountryConnectionDto dto) => new()
@@ -46,5 +47,6 @@ public static class AutoMapper
     public static Country CountryDtoMapper(CountryDto dto) => new()
     {
         Name = dto.Name,
+        PhotoUrl = dto.PhotoUrl ?? "https://content.unops.org/photos/Generic/Impact/_image2880x1400/Ukraine-GettyImages-622892200.jpg"
     };
 }

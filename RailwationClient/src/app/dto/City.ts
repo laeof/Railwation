@@ -8,4 +8,5 @@ export interface City {
     country: Country,
     fromCityConnections: CityConnection[],
     toCityConnections: CityConnection[],
+    photoUrl: string,
 }

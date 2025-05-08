@@ -19,7 +19,7 @@ export class CountryService {
         return this.http.get<Country>(this.apiService.getApiUrl() + "Country/" + id);
     }
 
-    create(country: Country): Observable<Country> {
+    create(country: {name: string, photoUrl: string}): Observable<Country> {
         return this.http.post<Country>(this.apiService.getApiUrl() + "Country", country);
     }
 }

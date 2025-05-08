@@ -1,0 +1,69 @@
+.countries-wrap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1rem;
+    padding: 0 10rem;
+
+    &.disable-padding {
+        padding: 1rem 0;
+    }
+
+    .country {
+        position: relative;
+        min-height: 170px;
+        display: flex;
+        justify-content: center;
+        user-select: none;
+
+        .wrap-img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            
+            .overlay {
+                position: absolute;
+                bottom: 5px;
+                top: 0;
+                left: 0;
+                right: 0;
+                background-color: rgba(transparent, 0.2);
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgba(transparent, 0.1);
+                }
+            }
+
+            img {
+                max-height: 200px;
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .name {
+            position: absolute;
+            text-align: center;
+            bottom: .2rem;
+            font-weight: 100;
+            color: white;
+            font-size: 2.5rem;
+            font-family: "Roboto";
+            cursor: pointer;
+        }
+    }
+}
+
+@container (max-width: 1050px) {
+    .countries-wrap {
+        padding: 0 5rem;
+    }
+}
+
+@container (max-width: 900px) {
+    .countries-wrap {
+        padding: 0;
+    }
+}

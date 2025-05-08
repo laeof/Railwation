@@ -17,6 +17,7 @@ public class CountryRepository : ICountryRepository
     {
         try
         {
+            if (country.PhotoUrl == "") country.PhotoUrl = "https://content.unops.org/photos/Generic/Impact/_image2880x1400/Ukraine-GettyImages-622892200.jpg";
             context.Entry(country).State = EntityState.Added;
             await context.SaveChangesAsync();
         }
@@ -30,9 +31,21 @@ public class CountryRepository : ICountryRepository
 
     public async Task<Result<CountryConnection>> CreateCountryConnectionAsync(CountryConnection countryConnection)
     {
+        var newCountryConnection = new CountryConnection
+        {
+            FromCountry = countryConnection.ToCountry,
+            FromCountryId = countryConnection.ToCountryId,
+            ToCountry = countryConnection.FromCountry,
+            ToCountryId = countryConnection.FromCountryId,
+            HasFreightService = countryConnection.HasFreightService,
+            HasPassengerService = countryConnection.HasPassengerService,
+            LogisticsScore = countryConnection.LogisticsScore,
+            WeeklyFrequency = countryConnection.WeeklyFrequency,
+        };
         try
         {
             context.Entry(countryConnection).State = EntityState.Added;
+            context.Entry(newCountryConnection).State = EntityState.Added;
             await context.SaveChangesAsync();
         }
         catch (Exception ex)
@@ -58,6 +71,7 @@ public class CountryRepository : ICountryRepository
                         CountryBId = b.CountryBId,
                         CountryA = new Country { Name = b.CountryA.Name },
                         CountryB = new Country { Name = b.CountryB.Name },
+                        HasRailway = b.HasRailway
                     })
                     .ToList(),
                 BorderCrossingsAsB = c.BorderCrossingsAsB
@@ -68,6 +82,7 @@ public class CountryRepository : ICountryRepository
                         CountryBId = b.CountryBId,
                         CountryA = new Country { Name = b.CountryA.Name },
                         CountryB = new Country { Name = b.CountryB.Name },
+                        HasRailway = b.HasRailway
                     })
                     .ToList(),
                 FromCountryConnections = c.FromCountryConnections

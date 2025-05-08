@@ -14,9 +14,17 @@ public class BorderCrossingRepository : IBorderCrossingRepository
     }
     public async Task<Result<BorderCrossing>> CreateBorderCrossingAsync(BorderCrossing borderCrossing)
     {
+        var newBorderCrossing = new BorderCrossing { 
+            CountryA = borderCrossing.CountryB,
+            CountryB = borderCrossing.CountryA,
+            CountryAId = borderCrossing.CountryBId,
+            CountryBId = borderCrossing.CountryAId,
+            HasRailway = borderCrossing.HasRailway,
+        };
         try
         {
             context.Entry(borderCrossing).State = EntityState.Added;
+            context.Entry(newBorderCrossing).State = EntityState.Added;
             await context.SaveChangesAsync();
         }
         catch (Exception ex)

@@ -31,9 +31,18 @@ export class CountryComponent {
                 if (!countries)
                     return;
 
-                this.countries = countries.concat(countries);
+                this.countries = countries;
             }
         )
+    }
+
+    addCountry() {
+        return this.countryService.create({
+            name: this.countryForm.value.name,
+            photoUrl: ''
+        }).subscribe(
+            value => window.location.href = '/countries'
+        );
     }
 
     selectCountry(country: Country) {

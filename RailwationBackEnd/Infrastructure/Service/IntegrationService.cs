@@ -24,8 +24,10 @@ public class IntegrationService : IIntegrationService
                 if (!graph.ContainsKey(neighborId))
                     graph[neighborId] = new GraphCityNode { CityId = neighborId };
 
-                graph[city.Id].Neighbors.Add(neighborId);
-                graph[neighborId].Neighbors.Add(city.Id);
+                if (!graph[city.Id].Neighbors.Contains(neighborId))
+                    graph[city.Id].Neighbors.Add(neighborId); 
+                if (!graph[neighborId].Neighbors.Contains(city.Id))
+                    graph[neighborId].Neighbors.Add(city.Id);
             }
         }
 
@@ -79,7 +81,7 @@ public class IntegrationService : IIntegrationService
             .Distinct()
             .Count() ?? 0;
 
-        return Math.Min(distinctConnections * 5, 25);
+        return Math.Min((distinctConnections - 1) * 5, 25);
     }
 
     public int ScoreRailServices(Country country)
@@ -116,6 +118,6 @@ public class IntegrationService : IIntegrationService
         int railwayCrossings = borderCrossings?
             .Count(b => b.HasRailway) ?? 0;
 
-        return Math.Min(railwayCrossings * 3, 15);
+        return Math.Min((railwayCrossings * 3) / 2, 15);
     }
 }

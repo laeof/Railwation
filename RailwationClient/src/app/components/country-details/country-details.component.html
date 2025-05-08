@@ -1,7 +1,7 @@
 <div class="wrapper" *ngIf="country">
     <app-country-sidebar (page)="onValueChanged($event)" [country]="country"></app-country-sidebar>
     <div class="wrap">
-        <div *ngIf="page === 0">
+        <div class="page" *ngIf="page === 0">
             <div class="score" *ngIf="score">
                 <p class="title">Оцінка інтегрованності</p>
                 <div class="scores">
@@ -52,7 +52,8 @@
                     <div class="card">
                         <div class="info">
                             <h3 class="title">Оцінка залізнодорожних сервісів</h3>
-                            <p class="subtitle">Оцінка кількості рейсів які обеспечують пасажирські та грузові перевезення</p>
+                            <p class="subtitle">Оцінка кількості рейсів які забезпечують пасажирські та грузові
+                                перевезення</p>
                         </div>
                         <div class="circle" [style.--percent]="score.scoreRailServices">
                             <div class="inner-circle">
@@ -63,68 +64,154 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="page === 1">
-            <p>Cities</p>
-            <div *ngFor="let i of cities">
-                <p>{{i.name}}</p>
-                <p>{{i.id}}</p>
-                <div>
-                    <p>country</p>
-                    <p>{{i.country.name}}</p>
-                    <p>{{i.countryId}}</p>
-                    <p>{{i.country.photoUrl}}</p>
+        <div class="page" *ngIf="page === 1">
+            <p class="title">Міста</p>
+            <app-citylist style="width: 100%; container-type: inline-size;" [disablePadding]="true"
+                [cities]="cities"></app-citylist>
+        </div>
+        <div class="page" *ngIf="page === 2">
+            <p class="title">Фізичні з'єднання між країнами</p>
+            <div class="borders-wrapper">
+                <p class="subtitle">З'єднання з країни</p>
+                <div class="card-wrapper">
+                    <div class="crossing-card" *ngFor="let i of country?.borderCrossingsAsA"
+                        [ngClass]="{'red': !i.hasRailway}">
+                        <p class="subtitle">З'єднання</p>
+                        <div class="connection">
+                            <p>{{i.countryA.name}}</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                class="">
+                                <g>
+                                    <path
+                                        d="m506.134 241.843-.018-.019-104.504-104c-7.829-7.791-20.492-7.762-28.285.068-7.792 7.829-7.762 20.492.067 28.284L443.558 236H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h423.557l-70.162 69.824c-7.829 7.792-7.859 20.455-.067 28.284 7.793 7.831 20.457 7.858 28.285.068l104.504-104 .018-.019c7.833-7.818 7.808-20.522-.001-28.314z"
+                                        fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                </g>
+                            </svg>
+                            <p>{{i.countryB.name}}</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="subtitle">З'єднання в країну</p>
+                <div class="card-wrapper">
+                    <div class="crossing-card" *ngFor="let i of country?.borderCrossingsAsB"
+                        [ngClass]="{'red': !i.hasRailway}">
+                        <p class="subtitle">З'єднання</p>
+                        <div class="connection">
+                            <p>{{i.countryA.name}}</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                class="">
+                                <g>
+                                    <path
+                                        d="m506.134 241.843-.018-.019-104.504-104c-7.829-7.791-20.492-7.762-28.285.068-7.792 7.829-7.762 20.492.067 28.284L443.558 236H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h423.557l-70.162 69.824c-7.829 7.792-7.859 20.455-.067 28.284 7.793 7.831 20.457 7.858 28.285.068l104.504-104 .018-.019c7.833-7.818 7.808-20.522-.001-28.314z"
+                                        fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                </g>
+                            </svg>
+                            <p>{{i.countryB.name}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div *ngIf="page === 2">
-            <p>border-crossings</p>
-            <p>A: </p>
-            <div *ngFor="let i of country?.borderCrossingsAsA">
-                {{i.hasRailway}}
-                <div>
-                    <p>country</p>
-                    <p>{{i.countryA.name}}</p>
-                    <p>{{i.countryAId}}</p>
-                    <p>{{i.countryA.photoUrl}}</p>
+        <div class="page" *ngIf="page === 3">
+            <div class="borders-wrapper">
+                <p class="title">Використовуванні єднання для потягів</p>
+                <p class="subtitle">Шляхи з країни</p>
+                <div class="card-wrapper">
+                    <div class="crossing-card" *ngFor="let i of country?.fromCountryConnections"
+                        [ngClass]="{'yellow': i.logisticsScore == 5, 'red': i.logisticsScore < 5}">
+                        <p class="subtitle">Шлях</p>
+                        <div class="connection">
+                            <p>{{i.fromCountry.name}}</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                class="">
+                                <g>
+                                    <path fill-rule="evenodd"
+                                        d="m458.94 351.79-177.69 93.18v-169.9l14.66 21.63c1.67 2.47 4.95 3.28 7.56 1.9l155.47-81.53zm-253.2-4.96c1.22-1.11 1.92-2.68 1.92-4.33s-.7-3.22-1.92-4.33l-60.62-55.19a5.862 5.862 0 0 0-9.8 4.33v17.26H91.86v-87.5l155.46 81.53c2.62 1.38 5.89.57 7.56-1.9l14.66-21.63v169.9l-108.88-57.1zm-37.35-196.36h-57.94l-11.84 6.21 176.79 92.71 176.79-92.72-176.79-92.7-54.05 28.35 17.46 15.9c1.22 1.11 1.91 2.68 1.91 4.33s-.69 3.22-1.91 4.33l-60.62 55.18c-3.71 3.38-9.79.79-9.79-4.33v-17.26zm326.6 40.34-25.36-37.41c-.56-.83-1.33-1.39-2.17-1.83l-189.35-99.4c-1.7-.89-3.74-.89-5.44 0l-60.55 31.75-33.94-30.9a5.835 5.835 0 0 0-6.31-1.02 5.862 5.862 0 0 0-3.49 5.35v17.26H23.83c-3.23 0-5.85 2.62-5.85 5.85v64.15c0 3.23 2.62 5.85 5.85 5.85h61.42l-1.92 1.1c-.83.43-1.6 1-2.17 1.83L55.8 190.81a5.818 5.818 0 0 0-.83 4.71c.4 1.62 1.48 2.99 2.96 3.76l22.22 11.65v93.64h-58.3c-3.23 0-5.85 2.62-5.85 5.85v64.15c0 3.23 2.62 5.85 5.85 5.85h113.48v17.26c0 5.12 6.07 7.71 9.79 4.33l6.33-5.76 121.23 63.57c1.69.88 3.75.89 5.44 0l189.39-99.32a5.848 5.848 0 0 0 3.13-5.19V210.94l22.22-11.65c3.1-1.63 4.09-5.59 2.13-8.48z"
+                                        clip-rule="evenodd" fill="#fff" opacity="1" data-original="#000000"></path>
+                                </g>
+                            </svg>
+                            <div class="arrow">
+                                <p class="frequency">{{i.weeklyFrequency}}</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                    class="">
+                                    <g>
+                                        <path
+                                            d="m506.134 241.843-.018-.019-104.504-104c-7.829-7.791-20.492-7.762-28.285.068-7.792 7.829-7.762 20.492.067 28.284L443.558 236H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h423.557l-70.162 69.824c-7.829 7.792-7.859 20.455-.067 28.284 7.793 7.831 20.457 7.858 28.285.068l104.504-104 .018-.019c7.833-7.818 7.808-20.522-.001-28.314z"
+                                            fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                class="">
+                                <g>
+                                    <path
+                                        d="M319.715 89.922c24.803 1.658 46.254-17.104 47.912-41.907S350.523 1.76 325.72.102s-46.254 17.104-47.912 41.907c-1.659 24.803 17.104 46.254 41.907 47.913zM180.651 280.102a32.726 32.726 0 0 1-7.207-4.156l-29.212 63.346-21.873-10.087c-8.513-3.926-18.596-.207-22.521 8.306l-57.736 125.2c-3.925 8.513-.207 18.595 8.306 22.521l7.443 3.433a13.425 13.425 0 0 0-3.055 4.216c-3.116 6.758-.164 14.762 6.593 17.879 6.758 3.116 14.762.164 17.878-6.594a13.43 13.43 0 0 0 1.223-5.061l7.443 3.433c8.513 3.925 18.596.207 22.521-8.306l57.736-125.201c3.516-7.625.886-16.496-5.816-21.087l30.124-65.324a32.59 32.59 0 0 1-11.847-2.518z"
+                                        fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                    <path
+                                        d="m455.933 193.212-61.003-15.353-27.55-31.735.557-8.329c1.12-16.755-11.554-31.246-28.309-32.366l-54.101-3.618c-16.141-1.079-30.176 10.647-32.185 26.488l12.36-3.551-49.924 26.673a20.536 20.536 0 0 0-9.27 10.192l-32.207 77.031c-4.375 10.465.561 22.494 11.026 26.87 10.398 4.348 22.466-.495 26.87-11.026l29.386-70.285 43.476-23.228-31.897 26.955-4.602 11.007-5.806 86.838.292.019c.027.994 2.936 59.118 4.354 87.639l-48.014 103.551c-5.726 12.348-.357 26.999 11.991 32.724 12.346 5.725 26.998.357 32.724-11.99l50.573-109.07a24.635 24.635 0 0 0 2.256-11.593l-4.384-87.951 11.11.743 27.269 81.093 10.35 118.554c1.184 13.572 13.149 23.594 26.694 22.408 13.56-1.183 23.591-13.135 22.408-26.694l-10.605-121.481a24.67 24.67 0 0 0-1.192-5.712l-21.727-64.61.678.045 5.961-89.15 4.656 5.364a20.531 20.531 0 0 0 10.496 6.452l67.266 16.93c10.976 2.766 22.156-3.886 24.928-14.903 2.768-11.002-3.905-22.162-14.905-24.931z"
+                                        fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                </g>
+                            </svg>
+                            <p>{{i.toCountry.name}}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <p>B: </p>
-            <div *ngFor="let i of country?.borderCrossingsAsA">
-                {{i.hasRailway}}
-                <div>
-                    <p>country</p>
-                    <p>{{i.countryB.name}}</p>
-                    <p>{{i.countryBId}}</p>
-                    <p>{{i.countryB.photoUrl}}</p>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="page === 3">
-            <p>country-connections</p>
-            <p>From: </p>
-            <div *ngFor="let i of country?.fromCountryConnections">
-                {{i.hasFreightService}}
-                {{i.hasPassengerService}}
-                {{i.logisticsScore}}
-                {{i.weeklyFrequency}}
-                <div>
-                    <p>country</p>
-                    <p>{{i.fromCountry.name}}</p>
-                    <p>{{i.fromCountryId}}</p>
-                    <p>{{i.fromCountry.photoUrl}}</p>
-                </div>
-            </div>
-            <p>To: </p>
-            <div *ngFor="let i of country?.toCountryConnections">
-                {{i.hasFreightService}}
-                {{i.hasPassengerService}}
-                {{i.logisticsScore}}
-                {{i.weeklyFrequency}}
-                <div>
-                    <p>country</p>
-                    <p>{{i.toCountry.name}}</p>
-                    <p>{{i.toCountryId}}</p>
-                    <p>{{i.toCountry.photoUrl}}</p>
+                <p class="subtitle">Шляхи в країну</p>
+                <div class="card-wrapper">
+                    <div class="crossing-card" *ngFor="let i of country?.toCountryConnections"
+                        [ngClass]="{'yellow': i.logisticsScore == 5, 'red': i.logisticsScore < 5}">
+                        <p class="subtitle">Шлях</p>
+                        <div class="connection">
+                            <p>{{i.fromCountry.name}}</p>
+                            <svg *ngIf="i.hasFreightService" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                class="">
+                                <g>
+                                    <path fill-rule="evenodd"
+                                        d="m458.94 351.79-177.69 93.18v-169.9l14.66 21.63c1.67 2.47 4.95 3.28 7.56 1.9l155.47-81.53zm-253.2-4.96c1.22-1.11 1.92-2.68 1.92-4.33s-.7-3.22-1.92-4.33l-60.62-55.19a5.862 5.862 0 0 0-9.8 4.33v17.26H91.86v-87.5l155.46 81.53c2.62 1.38 5.89.57 7.56-1.9l14.66-21.63v169.9l-108.88-57.1zm-37.35-196.36h-57.94l-11.84 6.21 176.79 92.71 176.79-92.72-176.79-92.7-54.05 28.35 17.46 15.9c1.22 1.11 1.91 2.68 1.91 4.33s-.69 3.22-1.91 4.33l-60.62 55.18c-3.71 3.38-9.79.79-9.79-4.33v-17.26zm326.6 40.34-25.36-37.41c-.56-.83-1.33-1.39-2.17-1.83l-189.35-99.4c-1.7-.89-3.74-.89-5.44 0l-60.55 31.75-33.94-30.9a5.835 5.835 0 0 0-6.31-1.02 5.862 5.862 0 0 0-3.49 5.35v17.26H23.83c-3.23 0-5.85 2.62-5.85 5.85v64.15c0 3.23 2.62 5.85 5.85 5.85h61.42l-1.92 1.1c-.83.43-1.6 1-2.17 1.83L55.8 190.81a5.818 5.818 0 0 0-.83 4.71c.4 1.62 1.48 2.99 2.96 3.76l22.22 11.65v93.64h-58.3c-3.23 0-5.85 2.62-5.85 5.85v64.15c0 3.23 2.62 5.85 5.85 5.85h113.48v17.26c0 5.12 6.07 7.71 9.79 4.33l6.33-5.76 121.23 63.57c1.69.88 3.75.89 5.44 0l189.39-99.32a5.848 5.848 0 0 0 3.13-5.19V210.94l22.22-11.65c3.1-1.63 4.09-5.59 2.13-8.48z"
+                                        clip-rule="evenodd" fill="#fff" opacity="1" data-original="#000000"></path>
+                                </g>
+                            </svg>
+                            <div class="arrow">
+                                <p class="frequency">{{i.weeklyFrequency}}</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                    class="">
+                                    <g>
+                                        <path
+                                            d="m506.134 241.843-.018-.019-104.504-104c-7.829-7.791-20.492-7.762-28.285.068-7.792 7.829-7.762 20.492.067 28.284L443.558 236H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h423.557l-70.162 69.824c-7.829 7.792-7.859 20.455-.067 28.284 7.793 7.831 20.457 7.858 28.285.068l104.504-104 .018-.019c7.833-7.818 7.808-20.522-.001-28.314z"
+                                            fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <svg *ngIf="i.hasPassengerService" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                class="">
+                                <g>
+                                    <path
+                                        d="M319.715 89.922c24.803 1.658 46.254-17.104 47.912-41.907S350.523 1.76 325.72.102s-46.254 17.104-47.912 41.907c-1.659 24.803 17.104 46.254 41.907 47.913zM180.651 280.102a32.726 32.726 0 0 1-7.207-4.156l-29.212 63.346-21.873-10.087c-8.513-3.926-18.596-.207-22.521 8.306l-57.736 125.2c-3.925 8.513-.207 18.595 8.306 22.521l7.443 3.433a13.425 13.425 0 0 0-3.055 4.216c-3.116 6.758-.164 14.762 6.593 17.879 6.758 3.116 14.762.164 17.878-6.594a13.43 13.43 0 0 0 1.223-5.061l7.443 3.433c8.513 3.925 18.596.207 22.521-8.306l57.736-125.201c3.516-7.625.886-16.496-5.816-21.087l30.124-65.324a32.59 32.59 0 0 1-11.847-2.518z"
+                                        fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                    <path
+                                        d="m455.933 193.212-61.003-15.353-27.55-31.735.557-8.329c1.12-16.755-11.554-31.246-28.309-32.366l-54.101-3.618c-16.141-1.079-30.176 10.647-32.185 26.488l12.36-3.551-49.924 26.673a20.536 20.536 0 0 0-9.27 10.192l-32.207 77.031c-4.375 10.465.561 22.494 11.026 26.87 10.398 4.348 22.466-.495 26.87-11.026l29.386-70.285 43.476-23.228-31.897 26.955-4.602 11.007-5.806 86.838.292.019c.027.994 2.936 59.118 4.354 87.639l-48.014 103.551c-5.726 12.348-.357 26.999 11.991 32.724 12.346 5.725 26.998.357 32.724-11.99l50.573-109.07a24.635 24.635 0 0 0 2.256-11.593l-4.384-87.951 11.11.743 27.269 81.093 10.35 118.554c1.184 13.572 13.149 23.594 26.694 22.408 13.56-1.183 23.591-13.135 22.408-26.694l-10.605-121.481a24.67 24.67 0 0 0-1.192-5.712l-21.727-64.61.678.045 5.961-89.15 4.656 5.364a20.531 20.531 0 0 0 10.496 6.452l67.266 16.93c10.976 2.766 22.156-3.886 24.928-14.903 2.768-11.002-3.905-22.162-14.905-24.931z"
+                                        fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                </g>
+                            </svg>
+                            <p>{{i.toCountry.name}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

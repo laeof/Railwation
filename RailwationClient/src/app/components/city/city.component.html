@@ -1,1 +1,20 @@
-<p>city works!</p>
+<div class="wrapper">
+    <div class="countries">
+        <h2 class="title">Cities</h2>
+        <app-citylist style="width: 100%; container-type: inline-size;" [cities]="cities"></app-citylist>
+    </div>
+    <h1 class="title">Choose a country</h1>
+    <mat-form-field [formGroup]="cityForm" class="countryform">
+        <mat-select class="select" formControlName="countryId">
+            <mat-option class="option" *ngFor="let country of countries;" [value]="country.id">
+                {{ country.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="create" *ngIf="cityForm.value.countryId">
+        <form class="form" [formGroup]="cityForm" (submit)="createCity()">
+            <input type="text" class="input" placeholder="Name" formControlName="name">
+            <input type="submit" class="button" value="Add">
+        </form>
+    </div>
+</div>

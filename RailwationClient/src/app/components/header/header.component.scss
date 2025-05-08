@@ -22,4 +22,24 @@
             }
         }
     }
+
+    .burgerbtn {
+        display: none;
+        cursor: pointer;
+    }
+}
+
+@media screen and (width < 481px) {
+    .wrapper {
+        gap: 1rem;
+
+        .links {
+            display: none;
+        }
+
+        .burgerbtn {
+            display: flex;
+            justify-self: flex-end;
+        }
+    }
 }

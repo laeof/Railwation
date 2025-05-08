@@ -12,5 +12,5 @@ export const routes: Routes = [
     { path: 'cities', component: CityComponent },
     { path: 'city-connections', component: CityconnectionComponent },
     { path: 'country-connections', component: CountryconnectionComponent },
-    { path: 'border-crossings', component: BordercrossingComponent }
+    { path: 'border-crossings', component: BordercrossingComponent },
 ];

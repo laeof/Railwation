@@ -5,20 +5,82 @@
     .wrap {
         justify-self: flex-start;
         padding: 2rem;
+        flex: 1;
+
+        .page {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            .title {
+                font-weight: 700;
+                font-size: 2rem;
+                width: 100%;
+                text-align: left;
+            }
+
+            .borders-wrapper {
+                width: 100%;
+
+                .subtitle {
+                    font-weight: 800;
+                    font-size: 1.25rem;
+                    padding: 1rem 0;
+                }
+
+                .card-wrapper {
+                    display: flex;
+                    gap: 1rem;
+
+                    .crossing-card {
+                        padding: 1rem;
+                        background-color: rgb(41, 151, 41);
+                        color: white;
+                        border-radius: 1rem;
+
+                        &.yellow {
+                            background-color: rgb(211, 196, 28);
+                        }
+
+                        &.red {
+                            background-color: rgb(169, 48, 48);
+                        }
+
+                        .subtitle {
+                            padding: 0;
+                            font-size: 1rem;
+                            font-weight: 600;
+                        }
+
+                        .connection {
+                            gap: 1rem;
+                            display: flex;
+                            align-items: center;
+                            .arrow {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                .frequency {
+                                    position: absolute;
+                                    margin-bottom: 1.75rem;
+                                    margin-right: .2rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         .score {
             display: flex;
             flex-direction: column;
             gap: 1rem;
-
-            .title {
-                font-weight: 700;
-                font-size: 2rem;
-            }
+            width: 100%;
 
             .scores {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
                 gap: 1rem;
 
                 .card {
@@ -32,8 +94,6 @@
                             font-size: 1rem;
                             font-weight: 800;
                         }
-
-                        .subtitle {}
                     }
 
                     .circle {

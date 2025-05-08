@@ -1,0 +1,9 @@
+<div class="countries-wrap" [ngClass]="{'disable-padding': disablePadding}">
+    <div class="country" *ngFor="let i of cities">
+        <div class="wrap-img">
+            <div class="overlay"></div>
+            <img src="{{i.photoUrl}}">
+        </div>
+        <p class="name">{{i.name}}</p>
+    </div>
+</div>

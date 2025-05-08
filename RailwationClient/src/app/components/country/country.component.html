@@ -6,7 +6,7 @@
                 <div class="wrap-img">
                     <div class="overlay"></div>
                     <img
-                        src="https://content.unops.org/photos/Generic/Impact/_image2880x1400/Ukraine-GettyImages-622892200.jpg">
+                        src="{{i.photoUrl}}">
                 </div>
                 <p class="name">{{i.name}}</p>
             </div>
@@ -14,10 +14,10 @@
     </div>
     <app-country-details *ngIf="selectedCountry" [cities]="cities" [country]="selectedCountry"></app-country-details>
     <div class="create" *ngIf="!selectedCountry">
-        <form class="form" [formGroup]="countryForm">
+        <form class="form" [formGroup]="countryForm" (submit)="addCountry()">
             <h1 class="title">Add new country</h1>
             <input type="text" class="input" placeholder="Name" formControlName="name">
-            <span class="button">Add</span>
+            <input type="submit" class="button" value="Add">
         </form>
     </div>
 </div>

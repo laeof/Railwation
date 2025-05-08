@@ -1,5 +1,17 @@
 @use "./app/shared/main.scss";
 
+.mat-mdc-option.mdc-list-item {
+    background: white !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+    display: none;
+}
+
+.mat-mdc-text-field-wrapper {
+    background: white !important;
+}
+
 html, body {
     height: 100%;
 }

@@ -19,7 +19,7 @@ export class CityService {
         return this.http.get<City[]>(this.apiService.getApiUrl() + "City/by-country/" + id);
     }
 
-    create(country: City): Observable<City> {
-        return this.http.post<City>(this.apiService.getApiUrl() + "City", country);
+    create(city: {id: string, photoUrl:string, name: string, countryId: string}): Observable<City> {
+        return this.http.post<City>(this.apiService.getApiUrl() + "City", city);
     }
 }
