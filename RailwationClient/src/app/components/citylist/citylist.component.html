@@ -1,5 +1,5 @@
 <div class="countries-wrap" [ngClass]="{'disable-padding': disablePadding}">
-    <div class="country" *ngFor="let i of cities">
+    <div class="country" *ngFor="let i of cities" (click)="showPage(i)">
         <div class="wrap-img">
             <div class="overlay"></div>
             <img src="{{i.photoUrl}}">

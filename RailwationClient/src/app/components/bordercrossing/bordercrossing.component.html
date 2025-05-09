@@ -1,1 +1,66 @@
-<p>bordercrossing works!</p>
+<div class="wrapper">
+    <div class="card-wrapper">
+        <div class="crossing-card" *ngFor="let i of borderCrossings"
+            [ngClass]="{'red': !i.hasRailway}">
+            <div class="card">
+                <p class="subtitle">З'єднання</p>
+                <div class="connection">
+                    <p>{{i.countryA.name}}</p>
+                    <div class="arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            width="25" height="25" x="0" y="0" viewBox="0 0 512 512"
+                            style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                            <g>
+                                <path
+                                    d="m506.134 241.843-.018-.019-104.504-104c-7.829-7.791-20.492-7.762-28.285.068-7.792 7.829-7.762 20.492.067 28.284L443.558 236H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h423.557l-70.162 69.824c-7.829 7.792-7.859 20.455-.067 28.284 7.793 7.831 20.457 7.858 28.285.068l104.504-104 .018-.019c7.833-7.818 7.808-20.522-.001-28.314z"
+                                    fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                            </g>
+                        </svg>
+                    </div>
+                    <p>{{i.countryB.name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="create">
+        <h1 class="title">Create crossing</h1>
+        <mat-form-field [formGroup]="crossingForm" class="countryform">
+            <mat-select class="select" formControlName="countryIdA" placeholder="Country A">
+                <mat-option class="option" *ngFor="let country of countries;" [value]="country.id">
+                    {{ country.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field [formGroup]="crossingForm" class="countryform">
+            <mat-select class="select" formControlName="countryIdB" placeholder="Country B">
+                <mat-option class="option" *ngFor="let country of countries;" [value]="country.id">
+                    {{ country.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div class="create">
+            <form class="form" [formGroup]="crossingForm" (submit)="createCrossing()">
+                <div class="checkboxes">
+                    <div class="checkbox-wrapper-28">
+                        <input id="tmp-28" type="checkbox" class="promoted-input-checkbox"
+                            formControlName="hasRailway" />
+                        <svg>
+                            <use xlink:href="#checkmark-28" />
+                        </svg>
+                        <label for="tmp-28">
+                            Railway
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                            <symbol id="checkmark-28" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-miterlimit="10" fill="none"
+                                    d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                                </path>
+                            </symbol>
+                        </svg>
+                    </div>
+                </div>
+                <input *ngIf="crossingForm.value.countryIdA" type="submit" class="button" value="Add">
+            </form>
+        </div>
+    </div>
+</div>

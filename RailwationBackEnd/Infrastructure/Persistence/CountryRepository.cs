@@ -63,6 +63,7 @@ public class CountryRepository : ICountryRepository
             {
                 Id = c.Id,
                 Name = c.Name,
+                PhotoUrl = c.PhotoUrl,
                 BorderCrossingsAsA = c.BorderCrossingsAsA
                     .Select(b => new BorderCrossing
                     {
@@ -121,6 +122,28 @@ public class CountryRepository : ICountryRepository
         return Result<List<Country>>.Success(countriesResult);
     }
 
+    public async Task<Result<List<CountryConnection>>> GetCountryConnectionsAsync()
+    {
+        var connectionsResult = await context.CountryConnections
+            .Select(c => new CountryConnection
+            {
+                Id = c.Id,
+                LogisticsScore = c.LogisticsScore,
+                FromCountryId = c.FromCountryId,
+                HasFreightService = c.HasFreightService,
+                HasPassengerService = c.HasPassengerService,
+                ToCountryId = c.ToCountryId,
+                WeeklyFrequency = c.WeeklyFrequency,
+                ToCountry = new Country { Name = c.ToCountry.Name },
+                FromCountry = new Country { Name = c.FromCountry.Name },
+            })
+            .ToListAsync();
+
+        if (connectionsResult is null) return Result<List<CountryConnection>>.Faillure(new("404", "Countries are not found"));
+
+        return Result<List<CountryConnection>>.Success(connectionsResult);
+    }
+
     public async Task<Result<List<CountryConnection>>> GetCountryConnectionsWithCountryIdAsync(Guid id)
     {
         var connectionsResult = await context.CountryConnections
@@ -151,6 +174,7 @@ public class CountryRepository : ICountryRepository
             .Select(c => new Country { 
                 Id = c.Id,
                 Name = c.Name,
+                PhotoUrl = c.PhotoUrl,
                 BorderCrossingsAsA = c.BorderCrossingsAsA
                     .Select(b => new BorderCrossing
                     {

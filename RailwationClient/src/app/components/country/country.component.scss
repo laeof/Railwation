@@ -33,6 +33,8 @@
 
                 .wrap-img {
                     position: relative;
+                    width: 100%;
+                    height: 100%;
 
                     .overlay {
                         position: absolute;
@@ -40,7 +42,7 @@
                         top: 0;
                         left: 0;
                         right: 0;
-                        background-color: rgba(transparent, 0.2);
+                        background-color: rgba(transparent, 0.3);
                         cursor: pointer;
 
                         &:hover {
@@ -50,6 +52,8 @@
 
                     img {
                         max-height: 200px;
+                        height: 100%;
+                        width: 100%;
                         object-fit: cover;
                     }
                 }

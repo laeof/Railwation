@@ -21,6 +21,7 @@ export class CountryComponent {
 
     countryForm: FormGroup = new FormGroup({
         name: new FormControl(''),
+        photoUrl: new FormControl(''),
     });
 
     constructor(private countryService: CountryService,
@@ -39,7 +40,7 @@ export class CountryComponent {
     addCountry() {
         return this.countryService.create({
             name: this.countryForm.value.name,
-            photoUrl: ''
+            photoUrl: this.countryForm.value.photoUrl,
         }).subscribe(
             value => window.location.href = '/countries'
         );

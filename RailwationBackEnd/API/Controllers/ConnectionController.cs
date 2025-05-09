@@ -18,6 +18,27 @@ public class ConnectionController: ControllerBase
         this.countryRepository = countryRepository;
         this.cityRepository = cityRepository;
     }
+
+    [HttpGet("country")]
+    public async Task<IActionResult> GetCountryConnections()
+    {
+        var connectionsResult = await countryRepository.GetCountryConnectionsAsync();
+
+        if (connectionsResult.IsFailure) return NotFound(connectionsResult.Error);
+
+        return Ok(connectionsResult.Value);
+    }
+
+    [HttpGet("city")]
+    public async Task<IActionResult> GetCityConnections()
+    {
+        var connectionsResult = await cityRepository.GetCityConnectionsAsync();
+
+        if (connectionsResult.IsFailure) return NotFound(connectionsResult.Error);
+
+        return Ok(connectionsResult.Value);
+    }
+
     [HttpGet("city/by-country/{countryId}")]
     public async Task<IActionResult> GetCityConnectionsByCountry(Guid countryId)
     {

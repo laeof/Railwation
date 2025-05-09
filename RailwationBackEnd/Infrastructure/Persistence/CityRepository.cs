@@ -76,6 +76,7 @@ namespace Infrastructure.Persistence
                         FrequencyPerWeek = c.FrequencyPerWeek,
                         IsFreight = c.IsFreight,
                         ToCityId = c.ToCityId,
+                        IsPassenger = c.IsPassenger,
                         FromCity = new City
                         {
                             Id = c.FromCity.Id,
@@ -104,6 +105,7 @@ namespace Infrastructure.Persistence
                         FromCityId = c.FromCityId,
                         FrequencyPerWeek = c.FrequencyPerWeek,
                         IsFreight = c.IsFreight,
+                        IsPassenger = c.IsPassenger,
                         ToCityId = c.ToCityId,
                         FromCity = new City
                         {
@@ -156,6 +158,7 @@ namespace Infrastructure.Persistence
                         FromCityId = c.FromCityId,
                         FrequencyPerWeek = c.FrequencyPerWeek,
                         IsFreight = c.IsFreight,
+                        IsPassenger = c.IsPassenger,
                         ToCityId = c.ToCityId,
                         FromCity = new City
                         {
@@ -186,6 +189,7 @@ namespace Infrastructure.Persistence
                         FrequencyPerWeek = c.FrequencyPerWeek,
                         IsFreight = c.IsFreight,
                         ToCityId = c.ToCityId,
+                        IsPassenger = c.IsPassenger,
                         FromCity = new City
                         {
                             Id = c.FromCity.Id,
@@ -216,6 +220,45 @@ namespace Infrastructure.Persistence
             return Result<List<City>>.Success(citiesResult);
         }
 
+        public async Task<Result<List<CityConnection>>> GetCityConnectionsAsync()
+        {
+            var cityConnectionsResult = await context.CityConnections
+                .Select(c => new CityConnection
+                {
+                    Id = c.Id,
+                    FromCityId = c.FromCityId,
+                    FrequencyPerWeek = c.FrequencyPerWeek,
+                    IsFreight = c.IsFreight,
+                    IsPassenger = c.IsPassenger,
+                    ToCityId = c.ToCityId,
+                    FromCity = new City
+                    {
+                        Id = c.FromCity.Id,
+                        Name = c.FromCity.Name,
+                        CountryId = c.FromCity.CountryId,
+                        Country = new Country
+                        {
+                            Name = c.FromCity.Country.Name
+                        }
+                    },
+                    ToCity = new City
+                    {
+                        Id = c.ToCity.Id,
+                        Name = c.ToCity.Name,
+                        CountryId = c.ToCity.CountryId,
+                        Country = new Country
+                        {
+                            Name = c.FromCity.Country.Name
+                        }
+                    }
+                })
+                .ToListAsync();
+
+            if (cityConnectionsResult is null) return Result<List<CityConnection>>.Faillure(new("404", "Cities are not found"));
+
+            return Result<List<CityConnection>>.Success(cityConnectionsResult);
+        }
+
         public async Task<Result<List<CityConnection>>> GetCityConnectionsWithCountryIdAsync(Guid countryId)
         {
             var cityConnectionsResult = await context.CityConnections
@@ -226,6 +269,7 @@ namespace Infrastructure.Persistence
                     FromCityId = c.FromCityId,
                     FrequencyPerWeek = c.FrequencyPerWeek,
                     IsFreight = c.IsFreight,
+                    IsPassenger = c.IsPassenger,
                     ToCityId = c.ToCityId,
                     FromCity = new City
                     {

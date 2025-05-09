@@ -10,5 +10,6 @@ public interface ICityRepository
     Task<Result<List<City>>> GetCitiesWithCountryIdAsync(Guid id);
     Task<Result<CityConnection>> CreateCityConnectionAsync(CityConnection cityConnection);
     Task<Result<List<CityConnection>>> GetCityConnectionsWithCountryIdAsync(Guid countryId);
+    Task<Result<List<CityConnection>>> GetCityConnectionsAsync();
 
 }

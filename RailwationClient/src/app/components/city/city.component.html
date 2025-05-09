@@ -14,6 +14,7 @@
     <div class="create" *ngIf="cityForm.value.countryId">
         <form class="form" [formGroup]="cityForm" (submit)="createCity()">
             <input type="text" class="input" placeholder="Name" formControlName="name">
+            <input type="text" class="input" placeholder="PhotoUrl" formControlName="photoUrl">
             <input type="submit" class="button" value="Add">
         </form>
     </div>

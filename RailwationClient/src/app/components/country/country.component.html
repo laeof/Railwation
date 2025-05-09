@@ -17,6 +17,7 @@
         <form class="form" [formGroup]="countryForm" (submit)="addCountry()">
             <h1 class="title">Add new country</h1>
             <input type="text" class="input" placeholder="Name" formControlName="name">
+            <input type="text" class="input" placeholder="PhotoUrl" formControlName="photoUrl">
             <input type="submit" class="button" value="Add">
         </form>
     </div>

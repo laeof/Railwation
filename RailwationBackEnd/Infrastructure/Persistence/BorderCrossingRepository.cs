@@ -35,6 +35,33 @@ public class BorderCrossingRepository : IBorderCrossingRepository
         return Result<BorderCrossing>.Success(borderCrossing);
     }
 
+    public async Task<Result<List<BorderCrossing>>> GetBorderCrossingsAsync()
+    {
+        var borderCrossingsResult = await context.BorderCrossings
+            .Select(c => new BorderCrossing
+            {
+                Id = c.Id,
+                HasRailway = c.HasRailway,
+                CountryA = new Country
+                {
+                    Id = c.CountryA.Id,
+                    Name = c.CountryA.Name,
+                    PhotoUrl = c.CountryA.PhotoUrl,
+                },
+                CountryB = new Country
+                {
+                    Id = c.CountryB.Id,
+                    Name = c.CountryB.Name,
+                    PhotoUrl = c.CountryB.PhotoUrl,
+                },
+            })
+            .ToListAsync();
+
+        if (borderCrossingsResult is null) return Result<List<BorderCrossing>>.Faillure(new("404", "Border crossings are not found"));
+
+        return Result<List<BorderCrossing>>.Success(borderCrossingsResult);
+    }
+
     public async Task<Result<List<BorderCrossing>>> GetBorderCrossingsWithCountryIdAsync(Guid id)
     {
         var borderCrossingsResult = await context.BorderCrossings

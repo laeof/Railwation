@@ -1,1 +1,106 @@
-<p>cityconnection works!</p>
+<div class="wrapper">
+    <div class="card-wrapper">
+        <div class="crossing-card" *ngFor="let i of cityConnections">
+            <div class="card">
+                <p class="subtitle">Шлях</p>
+                <div class="connection">
+                    <p>{{i.fromCity.name}}</p>
+                    <svg *ngIf="i.isFreight" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                        viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                        <g>
+                            <path fill-rule="evenodd"
+                                d="m458.94 351.79-177.69 93.18v-169.9l14.66 21.63c1.67 2.47 4.95 3.28 7.56 1.9l155.47-81.53zm-253.2-4.96c1.22-1.11 1.92-2.68 1.92-4.33s-.7-3.22-1.92-4.33l-60.62-55.19a5.862 5.862 0 0 0-9.8 4.33v17.26H91.86v-87.5l155.46 81.53c2.62 1.38 5.89.57 7.56-1.9l14.66-21.63v169.9l-108.88-57.1zm-37.35-196.36h-57.94l-11.84 6.21 176.79 92.71 176.79-92.72-176.79-92.7-54.05 28.35 17.46 15.9c1.22 1.11 1.91 2.68 1.91 4.33s-.69 3.22-1.91 4.33l-60.62 55.18c-3.71 3.38-9.79.79-9.79-4.33v-17.26zm326.6 40.34-25.36-37.41c-.56-.83-1.33-1.39-2.17-1.83l-189.35-99.4c-1.7-.89-3.74-.89-5.44 0l-60.55 31.75-33.94-30.9a5.835 5.835 0 0 0-6.31-1.02 5.862 5.862 0 0 0-3.49 5.35v17.26H23.83c-3.23 0-5.85 2.62-5.85 5.85v64.15c0 3.23 2.62 5.85 5.85 5.85h61.42l-1.92 1.1c-.83.43-1.6 1-2.17 1.83L55.8 190.81a5.818 5.818 0 0 0-.83 4.71c.4 1.62 1.48 2.99 2.96 3.76l22.22 11.65v93.64h-58.3c-3.23 0-5.85 2.62-5.85 5.85v64.15c0 3.23 2.62 5.85 5.85 5.85h113.48v17.26c0 5.12 6.07 7.71 9.79 4.33l6.33-5.76 121.23 63.57c1.69.88 3.75.89 5.44 0l189.39-99.32a5.848 5.848 0 0 0 3.13-5.19V210.94l22.22-11.65c3.1-1.63 4.09-5.59 2.13-8.48z"
+                                clip-rule="evenodd" fill="#fff" opacity="1" data-original="#000000"></path>
+                        </g>
+                    </svg>
+                    <div class="arrow">
+                        <p class="frequency">{{i.frequencyPerWeek}}</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            width="25" height="25" x="0" y="0" viewBox="0 0 512 512"
+                            style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                            <g>
+                                <path
+                                    d="m506.134 241.843-.018-.019-104.504-104c-7.829-7.791-20.492-7.762-28.285.068-7.792 7.829-7.762 20.492.067 28.284L443.558 236H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h423.557l-70.162 69.824c-7.829 7.792-7.859 20.455-.067 28.284 7.793 7.831 20.457 7.858 28.285.068l104.504-104 .018-.019c7.833-7.818 7.808-20.522-.001-28.314z"
+                                    fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                            </g>
+                        </svg>
+                    </div>
+                    <svg *ngIf="i.isPassenger" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0"
+                        viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                        <g>
+                            <path
+                                d="M319.715 89.922c24.803 1.658 46.254-17.104 47.912-41.907S350.523 1.76 325.72.102s-46.254 17.104-47.912 41.907c-1.659 24.803 17.104 46.254 41.907 47.913zM180.651 280.102a32.726 32.726 0 0 1-7.207-4.156l-29.212 63.346-21.873-10.087c-8.513-3.926-18.596-.207-22.521 8.306l-57.736 125.2c-3.925 8.513-.207 18.595 8.306 22.521l7.443 3.433a13.425 13.425 0 0 0-3.055 4.216c-3.116 6.758-.164 14.762 6.593 17.879 6.758 3.116 14.762.164 17.878-6.594a13.43 13.43 0 0 0 1.223-5.061l7.443 3.433c8.513 3.925 18.596.207 22.521-8.306l57.736-125.201c3.516-7.625.886-16.496-5.816-21.087l30.124-65.324a32.59 32.59 0 0 1-11.847-2.518z"
+                                fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                            <path
+                                d="m455.933 193.212-61.003-15.353-27.55-31.735.557-8.329c1.12-16.755-11.554-31.246-28.309-32.366l-54.101-3.618c-16.141-1.079-30.176 10.647-32.185 26.488l12.36-3.551-49.924 26.673a20.536 20.536 0 0 0-9.27 10.192l-32.207 77.031c-4.375 10.465.561 22.494 11.026 26.87 10.398 4.348 22.466-.495 26.87-11.026l29.386-70.285 43.476-23.228-31.897 26.955-4.602 11.007-5.806 86.838.292.019c.027.994 2.936 59.118 4.354 87.639l-48.014 103.551c-5.726 12.348-.357 26.999 11.991 32.724 12.346 5.725 26.998.357 32.724-11.99l50.573-109.07a24.635 24.635 0 0 0 2.256-11.593l-4.384-87.951 11.11.743 27.269 81.093 10.35 118.554c1.184 13.572 13.149 23.594 26.694 22.408 13.56-1.183 23.591-13.135 22.408-26.694l-10.605-121.481a24.67 24.67 0 0 0-1.192-5.712l-21.727-64.61.678.045 5.961-89.15 4.656 5.364a20.531 20.531 0 0 0 10.496 6.452l67.266 16.93c10.976 2.766 22.156-3.886 24.928-14.903 2.768-11.002-3.905-22.162-14.905-24.931z"
+                                fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                        </g>
+                    </svg>
+                    <p>{{i.toCity.name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="create">
+        <h1 class="title">Create connection</h1>
+        <mat-form-field [formGroup]="crossingForm" class="countryform">
+            <mat-select class="select" formControlName="cityIdA" placeholder="City A">
+                <mat-option class="option" *ngFor="let country of cities;" [value]="country.id">
+                    {{ country.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field [formGroup]="crossingForm" class="countryform">
+            <mat-select class="select" formControlName="cityIdB" placeholder="City B">
+                <mat-option class="option" *ngFor="let country of cities;" [value]="country.id">
+                    {{ country.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div class="create">
+            <form class="form" [formGroup]="crossingForm" (submit)="createCrossing()">
+                <input type="number" class="input" placeholder="Frequency per week" formControlName="frequencyPerWeek" min="0" oninput="validity.valid||(value='');">
+                <div class="checkboxes">
+                    <div class="checkbox-wrapper-28">
+                        <input id="tmp-28" type="checkbox" class="promoted-input-checkbox"
+                            formControlName="isFreight" />
+                        <svg>
+                            <use xlink:href="#checkmark-28" />
+                        </svg>
+                        <label for="tmp-28">
+                            Freight
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                            <symbol id="checkmark-28" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-miterlimit="10" fill="none"
+                                    d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                                </path>
+                            </symbol>
+                        </svg>
+                    </div>
+                    <div class="checkbox-wrapper-28">
+                        <input id="tmp-29" type="checkbox" class="promoted-input-checkbox"
+                            formControlName="isPassenger" />
+                        <svg>
+                            <use xlink:href="#checkmark-29" />
+                        </svg>
+                        <label for="tmp-29">
+                            Passenger
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                            <symbol id="checkmark-29" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-miterlimit="10" fill="none"
+                                    d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                                </path>
+                            </symbol>
+                        </svg>
+                    </div>
+                </div>
+                <input *ngIf="crossingForm.value.cityIdA" type="submit" class="button" value="Add">
+            </form>
+        </div>
+    </div>
+</div>

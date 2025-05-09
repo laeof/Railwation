@@ -6,6 +6,7 @@ import { City } from 'src/app/dto/City';
 import { IntegrationService } from 'src/app/service/integration.service';
 import { Integrations } from 'src/app/dto/Integrations';
 import { CitylistComponent } from '../citylist/citylist.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-country-details',
@@ -16,7 +17,12 @@ import { CitylistComponent } from '../citylist/citylist.component';
 export class CountryDetailsComponent implements OnInit {
     @Input() country: Country | undefined = undefined;
     @Input() cities: City[] = [];
+
     score: Integrations | undefined = undefined
+
+    selectedCity: City | undefined = undefined
+
+    pageSubscribed: number = 0;
 
     constructor(private integrationService: IntegrationService) {
 
@@ -35,10 +41,13 @@ export class CountryDetailsComponent implements OnInit {
         });
     }
 
-    page: number = 0;
-
     onValueChanged(value: number) {
-        this.page = value;
+        this.pageSubscribed = value;
+    }
+
+    onCityChanged(value: City) {
+        this.selectedCity = value;
+        this.pageSubscribed = 4;
     }
 
 }

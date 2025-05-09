@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Country } from 'src/app/dto/Country';
 
@@ -8,14 +8,21 @@ import { Country } from 'src/app/dto/Country';
     templateUrl: './country-sidebar.component.html',
     styleUrl: './country-sidebar.component.scss'
 })
-export class CountrySidebarComponent {
+export class CountrySidebarComponent implements OnChanges {
     @Input() country: Country | undefined = undefined;
-
     @Output() page = new EventEmitter<number>()
+    @Input() pageNumber: number = 0;
+
     currentPage: number = 0;
 
     constructor(private router: Router) {
 
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['pageNumber']) {
+            this.currentPage = changes['pageNumber'].currentValue;
+        }
     }
 
     redirectTo(path: string) {

@@ -20,7 +20,8 @@ export class CityComponent {
 
     cityForm: FormGroup = new FormGroup({
         name: new FormControl(''),
-        countryId: new FormControl('')
+        countryId: new FormControl(''),
+        photoUrl: new FormControl('')
     });
 
     /**
@@ -44,7 +45,7 @@ export class CityComponent {
 
     createCity() {
 
-        return this.cityService.create({ id: '00000000-0000-0000-0000-000000000000', photoUrl: '', countryId: this.cityForm.value.countryId, name: this.cityForm.value.name }).subscribe(
+        return this.cityService.create({ id: '00000000-0000-0000-0000-000000000000', photoUrl: this.cityForm.value.photoUrl, countryId: this.cityForm.value.countryId, name: this.cityForm.value.name }).subscribe(
             value => window.location.href = '/cities'
         );
     }
