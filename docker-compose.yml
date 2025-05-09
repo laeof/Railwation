@@ -3,13 +3,10 @@ services:
     container_name: "railwation"
     image: railwation
     ports:
-      - '5164:8080'
+      - '5185:8080'
     depends_on:
       - db
     environment:
-      - SECRETKEY=qweqweqweqweqweqweqweqweqweqweqweqwe
-      - ISSUER=127.0.0.1:5164
-      - AUDIENCE=127.0.0.1:5164
       - ASPNETCORE_DB_SERVER=psqldb
       - ASPNETCORE_DB_PORT=5432
       - ASPNETCORE_DB_USER=postgres
